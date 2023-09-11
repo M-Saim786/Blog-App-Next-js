@@ -6,7 +6,7 @@ import './style.css'
 import { BiPencil } from 'react-icons/bi'
 import { MdDeleteOutline } from 'react-icons/md'
 import Image from 'next/image';
-import Loader from '../../Assests/loader.gif'
+import Loader from '../Loader/Loader'
 import Sidebar from '../Sidebar/page';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
@@ -15,8 +15,11 @@ import { TextField } from '@mui/material'
 function page() {
     const router = useRouter()
     const [Active, setActive] = useState(false)
+    const [Search, setSearch] = useState('')
+
     // useRouter
     const [AllBlogs, setAllBlogs] = useState([])
+
     const GetNote = () => {
         // const axios = require('axios');
         // axios
@@ -39,58 +42,19 @@ function page() {
 
 
     }
-    useEffect(() => {
-        GetNote()
-
-    }, [])
-    const EditNote = (id) => {
-        console.log(id)
-        router.push(`/Components/AllBlogs/${id}`)
-    }
-    const DeleteBlog = (id) => {
-        // const axios = require('axios');
-
-        let config = {
-            method: 'delete',
-            maxBodyLength: Infinity,
-            url: `http://localhost:3000/Api/Blog/${id}`,
-            headers: {}
-        };
-
-        axios.request(config)
-            .then((response) => {
-                console.log(response.data);
-                if (response.data.data.status === true) {
-                    Swal.fire('Success', response.data.message, 'success')
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
-    }
     const toggleDarkMode = () => {
         setActive(true)
     }
 
-    const [Search, setSearch] = useState('')
 
     // Search
     const SearchNote = (e) => {
-        console.log('Search ')
-        // const axios = require('axios');
-        let data = JSON.stringify({
-            "title": e.target.value
-        });
-
+        setSearch(e.target.value)
         let config = {
-            method: 'post',
+            method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:3000/Api/SearchNote',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: data
+            url: `http://localhost:3000/Api/SearchBlog/${e.target.value}`,
+            headers: {}
         };
 
         axios.request(config)
@@ -101,27 +65,35 @@ function page() {
             .catch((error) => {
                 console.log(error);
             });
-
+            if (Search === '') {
+                GetNote()
+            }
     }
 
-
+    useEffect(() => {
+        if (Search === '') {
+            GetNote()
+        }
+        // else{
+        //     SearchNote(Search)
+        // }
+    }, [])
     return (
         <div className='flex'>
             <Sidebar />
-            <div style={{ width: '100%',  }}>
+            <div style={{ width: '100%', }}>
 
                 <Box className='w-full flex justify-between items-center' sx={{ borderBottom: '2px solid #E1E1E6' }}>
                     <Box className='' sx={{ ml: 3 }}>
                         <TextField
                             id="standard-search"
-                            label="Search Blog"
+                            label="Search All Blog"
                             type="search"
                             variant="standard"
                             onChange={(e) => SearchNote(e)}
+                            onMouseOut={() => setSearch('')}
                         />
-                        {/* <button onClick={SearchNote}>
-                <FiSearch />
-              </button> */}
+
                     </Box>
 
                     <div className=' flex'>
@@ -185,7 +157,7 @@ function page() {
                     </div>
                 </Box>
 
-                <div style={{  }}>
+                <div>
                     <div>
                         <h1 className='m-3 text-4xl'>
                             All Blogs
@@ -194,42 +166,43 @@ function page() {
 
                     <div className=' flex ' style={{ flexWrap: 'wrap', width: '100%', justifyContent: 'center' }}>
 
-                        {
+                        {AllBlogs &&
                             AllBlogs.length <= 0 ?
-                                <>
-                                    <Image src={Loader} width={100} height={100} style={{ width: '100%', height: '40vh' }} />
-                                    <Image src={Loader} width={100} height={100} style={{ width: '100%', height: '40vh' }} /></> :
-                                AllBlogs.map((note, index) => {
-                                    return (
-                                        <>
-                                            {
-                                                note.title === '' || note.desc === '' ?
-                                                    '' : <Box className='border p-3 m-2 rounded-lg relative ' sx={{ height: 'auto', width: { lg: '80%', md: '40%', sm: '60%', xs: '80%' }, fontFamily: 'outfit' }}>
-                                                        <Image src={note.blogImg} width={100} height={30} style={{ width: '40%', height: '30vh' }} />
-                                                        <div>
-                                                            <h1 className='text-xl'>
-                                                                {note.title}
-                                                            </h1>
-                                                            <h3>
-                                                                {note.desc}
-                                                            </h3>
-                                                        </div>
+                            <>
+                                <Loader />
+                                <Loader />
+                            </> :
+                            AllBlogs.map((note, index) => {
+                                return (
+                                    <>
+                                        {
+                                            note.title === '' || note.desc === '' ?
+                                                '' : <Box className='border p-3 m-2 rounded-lg relative ' sx={{ height: 'auto', width: { lg: '80%', md: '40%', sm: '60%', xs: '80%' }, fontFamily: 'outfit' }}>
+                                                    <Image src={note.blogImg} width={100} height={30} style={{ width: '40%', height: '30vh', borderRadius: '10px' }} />
+                                                    <div>
+                                                        <h1 className='text-xl my-5'>
+                                                            {note.title}
+                                                        </h1>
+                                                        <h3>
+                                                            {note.desc}
+                                                        </h3>
+                                                    </div>
 
-                                                        <div className='mt-10'>
-                                                            <h5>
-                                                                Dated
-                                                            </h5>
-                                                            <h2 className=''>
-                                                                {note.createdAt}
-                                                            </h2>
-                                                        </div>
-                                                    </Box>
+                                                    <div className='mt-10'>
+                                                        <h5>
+                                                            Dated
+                                                        </h5>
+                                                        <h2 className=''>
+                                                            {note.createdAt.slice(0, 10)}
+                                                        </h2>
+                                                    </div>
+                                                </Box>
 
-                                            }
+                                        }
 
-                                        </>
-                                    )
-                                })
+                                    </>
+                                )
+                            })
                         }
 
                     </div>

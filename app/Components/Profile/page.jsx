@@ -23,39 +23,7 @@ function page() {
     const [Name, setName] = useState('')
     const [ImgUrl, setImgUrl] = useState('')
     const [Img, setImg] = useState('')
-    useEffect(() => {
-        // const axios = require('axios');
 
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: 'http://localhost:3000/Api/GetUserApi',
-            headers: {}
-        };
-        // axios
-        axios.request(config)
-            .then((response) => {
-                let id = localStorage.getItem("ID")
-                console.log(id)
-                console.log(response.data);
-                for (const i of response.data.data) {
-                    if (i._id === id) {
-                        setUser(i)
-                        console.log(i)
-                        console.log(User)
-                    }
-                }
-
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
-        setName(User.name)
-        setEmail(User.email)
-        setPassword(User.password)
-        setImgUrl(User.image)
-    }, [])
 
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -70,7 +38,7 @@ function page() {
             reader.readAsDataURL(Img)
             reader.onload = () => {
                 console.log(reader.result)
-              return  setImgUrl(reader.result)
+                return setImgUrl(reader.result)
             }
         }
     }
@@ -110,49 +78,72 @@ function page() {
             });
 
     }
+
+    useEffect(() => {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:3000/Api/GetUserApi',
+            headers: {}
+        };
+        // axios
+        axios.request(config)
+            .then((response) => {
+                let id = localStorage.getItem("ID")
+                console.log(id)
+                console.log(response.data);
+                for (const i of response.data.data) {
+                    if (i._id === id) {
+                        setUser(i)
+                        setName(i.name)
+                        setEmail(i.email)
+                        setPassword(i.password)
+                        setImgUrl(i.image)
+                        console.log(i)
+                        // console.log(User)
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [])
+
     return (
         <Box className='flex w-full' >
             <Sidebar />
             <Box sx={{ width: '100%' }}>
                 <h1 className='m-4 text-4xl'>
-                    Profile
+                    Profile Update
                 </h1>
-                <Box sx={{ width: '70%', margin: '10px auto', border: '1px solid red' }}>
+                <Box sx={{ width: '50%', margin: '10px auto', position: 'relative', }}>
 
-                    <Box sx={{ border: '1px solid red', position: 'relative', display: 'flex', justifyContent: 'right' }}>
-                        <Box sx={{ right: '10px   ' }}>
-
-                            <Image src={ImgUrl} width={100} height={100} style={{ border: '1px solid green', borderRadius: '50%' }} />
-
-
-                            <InputLabel htmlFor='avatar' sx={{ border: '1px solid #9EA3AE', borderRadius: '50%', width: 'fit-content', p: 1, position: 'absolute', top: '3rem', right: '2rem' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'right', }}>
+                        <Box sx={{ right: '10px' }}>
+                            <Image src={ImgUrl} width={150} height={150} style={{ border: '1px solid gray', borderRadius: '50%', background: 'transparent' }} />
+                            <InputLabel htmlFor='avatar' sx={{ border: '1px solid #9EA3AE', borderRadius: '50%', width: 'fit-content', p: 1, position: 'absolute', top: '7rem', right: '-4px' }}>
                                 <AiOutlinePlus />
                             </InputLabel>
                             <Input type="file" name="" id="avatar" sx={{ display: 'none' }} onChange={(e) => setImg(e.target.files[0])} />
                         </Box>
                     </Box>
-                    <Box sx={{ width: '70%' }}>
-                        <Grid container item spacing={2} >
-                            <Grid item lg={'60%'} md={'60%'} sm={'80%'} xs={'90%'} >
-
+                    <Box>
+                        <Box container item spacing={2} sx={{ margin: '10px auto' }} >
+                            <Box item sx={{ width: { lg: '40%', md: '50%', sm: '70%', xs: '100%' }, mt: 4 }}>
                                 <InputLabel sx={{ my: 1 }}>
                                     Name
                                 </InputLabel>
                                 <OutlinedInput placeholder='Name' value={Name}
-                                    onChange={(e) => setName(e.target.value)}
-
-                                />
-                            </Grid>
-                            <Grid item lg={'60%'} md={'60%'} sm={'80%'} xs={'90%'}>
+                                    onChange={(e) => setName(e.target.value)} fullWidth />
+                            </Box>
+                            <Box item sx={{ width: { lg: '40%', md: '50%', sm: '70%', xs: '100%' }, mt: 4 }}>
                                 <InputLabel sx={{ my: 1 }}>
                                     Email
                                 </InputLabel>
                                 <OutlinedInput placeholder='Email' value={Email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                            </Grid>
-
-                            <Grid item lg={'50%'} md={'60%'} sm={'80%'} xs={'90%'}>
+                                    onChange={(e) => setEmail(e.target.value)} fullWidth />
+                            </Box>
+                            <Box item sx={{ width: { lg: '40%', md: '50%', sm: '70%', xs: '100%' }, mt: 4 }}>
                                 <InputLabel htmlFor="outlined-adornment-password"> Password</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
@@ -170,42 +161,21 @@ function page() {
                                         </InputAdornment>
                                     }
                                     onChange={(e) => setPassword(e.target.value)}
+                                    value={Password}
                                     label="Password"
+                                    fullWidth
                                 />
-                            </Grid>
-                            <Grid item lg={'50%'} md={'60%'} sm={'80%'} xs={'90%'}>
-                                <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
-                                <OutlinedInput
-                                    id="outlined-adornment-password"
-                                    type={showPassword ? 'text' : 'password'}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                            >
-                                                {showPassword ? <BsEyeSlash /> : <AiOutlineEye />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    label="Password"
-                                />
-                            </Grid>
-                        </Grid>
-
+                            </Box>
+                        </Box>
                     </Box>
 
-                    <h2>
-                        {User.email}
-                        {User.password}
-                    </h2>
+                    <Box sx={{ textAlign: 'right' }}>
+                        <Button className='rounded w-36 bg-blue-500 p-2 text-white capitalize hover:bg-blue-600' onClick={UpdateProfile}>
+                            Update Profile
+                        </Button>
+                    </Box>
 
 
-                    <Button sx={{}} onClick={UpdateProfile}>
-                        Update Profile
-                    </Button>
                 </Box>
             </Box>
         </Box >

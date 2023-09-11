@@ -7,6 +7,5 @@ const RegisterSchema = mongoose.Schema({
 })
 if( mongoose.models["RegisterUsers"]){
     delete  mongoose.models["RegisterUsers"]
-
 }
 export const RegisterModel = mongoose.model('RegisterUsers', RegisterSchema)

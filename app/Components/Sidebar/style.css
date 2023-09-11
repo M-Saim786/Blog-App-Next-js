@@ -174,9 +174,11 @@ a h4 {
     /* padding: ; */
     /* background-color: red; */
 }
-.expandMenuUl{
+
+.expandMenuUl {
     height: 100vh;
 }
+
 .expandMenu .expandMenuUl {
     padding: 10px;
 }
@@ -191,7 +193,7 @@ a h4 {
     /* margin-bottom: 20px; */
 }
 
-.expandMenu .expandMenuUl li {
+.expandMenuUl li {
     display: flex;
     align-items: center;
     /* justify-content: cente   r; */

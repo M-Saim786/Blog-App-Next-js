@@ -16,7 +16,7 @@ import { FaBloggerB } from 'react-icons/fa'
 import { FaRegCommentDots } from 'react-icons/fa'
 
 
-function page() {
+function Dashboard() {
   const router = useRouter()
   useEffect(() => {
     if (!localStorage.getItem('ID')) {
@@ -101,15 +101,6 @@ function page() {
 
         <Sidebar />
         <div className='block w-full'>
-
-          {/* {children} */}
-          {/* Top Section */}
-    
-
-
-          {/* <input type="text" name="" id="" onChange={(e) => setNote(e.target.value)} className='border' /> */}
-
-
           <div>
             <h1 className='text-3xl' style={{ fontFamily: 'outfit', margin: '10px', fontWeight: 'bold' }}>
               Welcome to  Saffron<span>Sunsets </span>
@@ -119,7 +110,7 @@ function page() {
               Where thoughts take flight, in SaffronSunsets's light
             </Typography>
 
-            <Box className=' flex ' sx={{ flexWrap: 'wrap' }}>
+            <Box className=' flex  justify-center' sx={{ flexWrap: 'wrap' ,mt:2}}>
               <Box className='border p-3 m-2 rounded-lg relative ' sx={{ height: '30vh', width: { lg: '30%', md: '40%', sm: '60%', xs: '80%', backgroundColor: Color, fontFamily: 'outfit' } }}>
                 <h1 className='text-5xl'>
                   {AllBlogs.length}
@@ -130,8 +121,6 @@ function page() {
                 </h3>
                 <FaBloggerB className='text-blue-400 text-4xl absolute right-4 top-3' />
               </Box>
-
-
               <Box className='border p-3 m-2 rounded-lg relative ' sx={{ height: '30vh', width: { lg: '30%', md: '40%', sm: '60%', xs: '80%', backgroundColor: Color, fontFamily: 'outfit' } }}>
                 <h1 className='text-5xl'>
                   {Myblog.length}
@@ -142,7 +131,6 @@ function page() {
                 </h3>
                 <FaBloggerB className='text-blue-400 text-4xl absolute right-4 top-3' />
               </Box>
-
               <Box className='border p-3 m-2 rounded-lg relative ' sx={{ height: '30vh', width: { lg: '30%', md: '40%', sm: '60%', xs: '80%', backgroundColor: Color, fontFamily: 'outfit' } }}>
                 <h1 className='text-5xl'>
                   {40}
@@ -169,4 +157,4 @@ function page() {
   )
 }
 
-export default page
+export default Dashboard

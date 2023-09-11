@@ -5,6 +5,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
+import { Button } from '@mui/material';
 function page({ params }) {
     // console.log(params.blogId)
     const router = useRouter()
@@ -103,7 +104,7 @@ function page({ params }) {
     return (
         <div>
             <div className='flex justify-start'>
-                <Link href={'/Components/MyBlogs'} className='m-8 text-green-500' >
+                <Link href={'/Components/MyBlogs'} className='m-8 text-sky-500' >
                     Go Back
                 </Link>
                 <h1 className='text-5xl mt-3'>
@@ -115,10 +116,10 @@ function page({ params }) {
                 <h1 className='text-2xl mb-2'>
                     Blog Title
                 </h1>
-                <input type="text" name="" id="" value={Title} onChange={(e) => setTitle(e.target.value)} className='bg-blue-100 p-1' style={{
+                <input type="text" name="" id="" value={Title} onChange={(e) => setTitle(e.target.value)} className=' p-1' style={{
                     fontSize: '20px',
                     borderRadius: '5px',
-                    border: '1px solid red',
+                    border: '1px solid gray',
                     paddingLeft: '5px',
                     width: '70%'
                 }} />
@@ -126,11 +127,11 @@ function page({ params }) {
                 <h1 className='text-2xl my-2'>
                     Blog Description
                 </h1>
-                <textarea type="text" name="" id="" value={Desc} onChange={(e) => setDesc(e.target.value)} className='bg-blue-100' style={{
+                <textarea type="text" name="" id="" value={Desc} onChange={(e) => setDesc(e.target.value)} className='' style={{
                     fontSize: '20px',
                     borderRadius: '5px',
-                    border: '1px solid red',
-                    paddingLeft: '5px',
+                    border: '1px solid gray',
+                    paddingLeft: '10px',
                     width: '70%',
                     height: '30vh'
                 }} ></textarea>
@@ -142,9 +143,10 @@ function page({ params }) {
                 </button> */}
 
                 <div className=' my-3'>
-                    <button className='bg-blue-300 text-white px-3 py-1 rounded-sm' style={{ width: '20%', border: '2px solid rgb(19 116 225)' }} onClick={SaveEdit}>
+                    <Button className=' capitalize hover:bg-blue-500 my-6 bg-blue-300 text-white px-3 py-1 rounded-sm' style={{ width: '20%', border: '2px solid rgb(19 116 225)' }} onClick={SaveEdit}>
                         Save
-                    </button>
+                    </Button>
+                    {/* <Button */}
                 </div>
             </div>
         </div>

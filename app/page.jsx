@@ -58,41 +58,33 @@ function page() {
       .catch((error) => {
         console.log(error);
         Swal.fire('Error', error.data, 'error')
-
       });
   }
 
   const LoginCheck = () => {
-
-
-  }
-  useEffect(() => {
     if (localStorage.getItem('ID')) {
       router.push("/Components/Dashboard")
     }
     else {
       router.push("/")
     }
+  }
+  useEffect(() => {
+    LoginCheck()
   }, [])
-
-
   return (
     <>
-
       <Box sx={{
-        // textAlign: 'center',
         height: '100vh'
       }} className='loginDiv'>
-
         <Box className='topLogo'>
           <Image src={logo} width={50} height={50} />
           <Typography variant='h4'>
-
             Saffron<span>Sunsets </span>
           </Typography>
         </Box>
         <Typography sx={{ my: 2, fontFamily: 'outfit' }}>
-          Where thoughts take flight, in SolsticeMemo's light
+          Where thoughts take flight, in Saffron Sunsets's light
         </Typography>
 
         <Box sx={{
@@ -117,7 +109,6 @@ function page() {
             marginTop: { lg: "10px", md: "0", sm: "4rem", xs: "4rem" },
             padding: '20px',
           }}>
-
             <Box>
               <Typography
                 sx={{ color: "#3c4257", fontSize: "26px", fontWeight: 600 }}
@@ -193,7 +184,7 @@ function page() {
               // border:'1px solid red',
               textAlign: 'center'
             }}>
-              <button className="rounded w-full bg-blue-500 p-2 text-white " onClick={handleLogin}>Continue</button>
+              <Button className="rounded w-full bg-blue-500 p-2 text-white capitalize hover:bg-blue-600" onClick={handleLogin}>Continue</Button>
             </Box>
 
             <Box

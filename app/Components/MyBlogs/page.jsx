@@ -6,7 +6,7 @@ import { Box, Input, InputLabel, OutlinedInput, TextField } from '@mui/material'
 import { BiPencil } from 'react-icons/bi'
 import { MdDeleteOutline } from 'react-icons/md'
 import Image from 'next/image';
-import Loader from '../../Assests/loader.gif'
+import Loader from '../Loader/Loader'
 import Sidebar from '../Sidebar/page';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
@@ -30,9 +30,12 @@ const style = {
 };
 function page() {
     const router = useRouter()
+
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [Search, setSearch] = useState('')
+
     // useRouter
 
 
@@ -65,14 +68,12 @@ function page() {
 
 
     }
-    useEffect(() => {
-        GetNote()
 
-    }, [])
     const EditNote = (id) => {
         console.log(id)
         router.push(`/Components/MyBlogs/${id}`)
     }
+
     const DeleteBlog = (id) => {
         // const axios = require('axios');
 
@@ -99,6 +100,8 @@ function page() {
     const [Desc, setDesc] = useState('')
     const [BlogImg, setBlogImg] = useState('')
     const [Img, setImg] = useState('')
+    const [addBlog, setaddBlog] = useState(false)
+
     const handleBlogImg = () => {
         // setImg(e.target.files[0])
         console.log(Img)
@@ -108,12 +111,10 @@ function page() {
             reader.readAsDataURL(Img)
             reader.onload = () => {
                 setBlogImg(reader.result)
+                console.log(BlogImg)
             }
         }
     }
-
-    const [addBlog, setaddBlog] = useState(false)
-
     const AddBlog = () => {
         // alert(Note)
         let id = localStorage.getItem('ID')
@@ -155,6 +156,33 @@ function page() {
             });
 
     }
+
+    const SearchNote = (e) => {
+        setSearch(e.target.value)
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `http://localhost:3000/Api/SearchBlog/${e.target.value}`,
+            headers: {}
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(response.data);
+                setAllBlogs(response.data.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        if (Search === '') {
+            GetNote()
+        }
+    }
+    useEffect(() => {
+        if (Search === '') {
+            GetNote()
+        }
+    }, [])
     return (
         <div className='flex'>
             <Sidebar />
@@ -166,10 +194,11 @@ function page() {
                     <Box className='' sx={{ ml: 3 }}>
                         <TextField
                             id="standard-search"
-                            label="Search Blog"
+                            label="Search My Blogs"
                             type="search"
                             variant="standard"
                             onChange={(e) => SearchNote(e)}
+                            onMouseOut={() => setSearch('')}
                         />
                     </Box>
 
@@ -242,7 +271,7 @@ function page() {
                             My Blogs
                         </h1>
 
-                        <Button onClick={() => setaddBlog(true)} className=' bg-blue-400 capitalize text-white hover:bg-sky-700' sx={{ height: '7vh', width:'8%',mt:2 ,mr:4 }}>Add Blog</Button>
+                        <Button onClick={() => setaddBlog(true)} className=' bg-blue-400 capitalize text-white hover:bg-sky-700' sx={{ height: '7vh', width: '8%', mt: 2, mr: 4 }}>Add Blog</Button>
                         {/* Tis is modl */}
                     </div>
                     <Box sx={{ width: '100%', height: `${addBlog === true ? 'auto' : '0px'}`, overflowY: 'hidden', transition: 'all 1s ease', padding: `${addBlog === true ? '10px' : '0px'}`, }}>
@@ -301,8 +330,8 @@ function page() {
                         {
                             AllBlogs.length <= 0 ?
                                 <>
-                                    <Image src={Loader} width={100} height={100} style={{ width: '100%', height: '40vh' }} />
-                                    <Image src={Loader} width={100} height={100} style={{ width: '100%', height: '40vh' }} /></> :
+                                    <Loader />
+                                </> :
                                 AllBlogs.map((note, index) => {
                                     return (
                                         <>

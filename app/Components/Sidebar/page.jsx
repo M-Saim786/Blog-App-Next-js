@@ -34,7 +34,7 @@ import { CiLocationOn } from 'react-icons/ci'
 import { BsChevronDown } from 'react-icons/bs'
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
-
+// import logo from '../../Assests/logo.png'
 function Sidebar() {
   const router = useRouter()
   const [state, setState] = React.useState({
@@ -78,32 +78,15 @@ function Sidebar() {
     router.push('/')
   }
 
-
-
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250, border: '1px solid green', height: '100vh' }}
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250, height: '100vh', }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    // className='SideBar'
-
-    >
-      {/* <div className="logo" style={{ textAlign: 'center', marginTop: '20px' }}>
-      </div> */}
-      <List sx={{ border: '1px solid red', height: '95vh' }} >
+      onKeyDown={toggleDrawer(anchor, false)}>
+      <List sx={{ height: '95vh' }} >
         <ListItem>
-          <ListItemButton sx={{
-            padding: '20px', height: '5vh',
-            borderRadius: '10px',
-            textAlign: 'center',
-            display: 'flex',
-            justifyContent: 'center',
-            // border: '1px solid red',
-          }}>
-            back
-          </ListItemButton>
-
+          <Image src={Logo}  style={{width:'35%', margin:'10px auto'}} />
         </ListItem>
         <ListItem >
           <ListItemButton sx={{
@@ -194,7 +177,7 @@ function Sidebar() {
           </ListItemButton>
         </ListItem>
 
-        <ListItem className='absolute bottom-4  text-red-400' onClick={() => logOut()}>
+        <ListItem className='absolute bottom-4  text-red-400 border-red-500' onClick={() => logOut()}>
           <ListItemButton>
             <ListItemIcon className='text-red-400'>
               <SlLogout />
@@ -221,12 +204,14 @@ function Sidebar() {
 
   return (
     <>
-      <div className='expandMenu'>
+      <Box
+        // className='expandMenu'
+        sx={{ borderRight: '1px solid #E1E1E6', width: { lg: '6%', md: '8%', sm: '22%', xs: '22%' }, }}>
         {['left'].map((anchor) => (
           <React.Fragment key={anchor}>
             <List className='expandMenuUl' >
               <ListItem >
-                <Image src={Logo} alt="" style={{ width: '100%', height: '8vh' }} />
+                <Image src={Logo} alt="" style={{ width: '90%', height: '8vh' }} />
               </ListItem>
               <ListItem>
                 <ListItemButton onClick={toggleDrawer(anchor, true)}>
@@ -237,19 +222,19 @@ function Sidebar() {
 
                 </ListItemButton>
               </ListItem>
-
             </List>
             <Drawer
               anchor={anchor}
               open={state[anchor]}
               onClose={toggleDrawer(anchor, false)}
+              sx={{ border: '1px solid red' }}
             >
               {list(anchor)}
-              
+
             </Drawer>
           </React.Fragment>
         ))}
-      </div>
+      </Box>
     </>
   );
 }

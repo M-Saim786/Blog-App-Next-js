@@ -1,4 +1,4 @@
-import { Timestamp } from "mongodb";
+// import { Timestamp } from "mongodb";
 import mongoose from "mongoose";
 const BlogSchema = mongoose.Schema({
     title: String,
@@ -6,7 +6,8 @@ const BlogSchema = mongoose.Schema({
     userId: String,
     blogImg: String,
 
-}, { timestamps: true })
+}
+,{ timestamps: true })
 
 if (mongoose.models['Blogs']) {
     delete mongoose.models['Blogs']
