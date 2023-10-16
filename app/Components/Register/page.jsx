@@ -13,7 +13,7 @@ import logo from '../../Assests/logo.png';
 import Swal from 'sweetalert2';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-function page() {
+function Register() {
   const router = useRouter()
   const [UserName, setUserName] = useState('')
   const [Email, setEmail] = useState('')
@@ -82,7 +82,7 @@ function page() {
           </Typography>
         </Box>
         <Typography sx={{ my: 2, fontFamily: 'outfit' }}>
-          Where thoughts take flight, in Saffron Sunsets's light
+          Where thoughts take flight, in Saffron Sunsets`&apos;`s light
         </Typography>
 
         <Box sx={{
@@ -221,4 +221,4 @@ function page() {
   )
 }
 
-export default page
+export default Register

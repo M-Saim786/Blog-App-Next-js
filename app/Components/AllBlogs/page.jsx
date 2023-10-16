@@ -1,24 +1,23 @@
-"use client"
-
+'use client'
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import './style.css'
-import { BiPencil } from 'react-icons/bi'
-import { MdDeleteOutline } from 'react-icons/md'
+// import { BiPencil } from 'react-icons/bi'
+// import { MdDeleteOutline } from 'react-icons/md'
 import Image from 'next/image';
 import Loader from '../Loader/Loader'
 import Sidebar from '../Sidebar/page';
-import { useRouter } from 'next/navigation';
-import Swal from 'sweetalert2';
+// import { useRouter } from 'next/navigation';
+// import Swal from 'sweetalert2';
 import { Box } from '@mui/material';
 import { TextField } from '@mui/material'
-function page() {
-    const router = useRouter()
-    const [Active, setActive] = useState(false)
-    const [Search, setSearch] = useState('')
+function AllBlog() {
+    // const router = useRouter()
+    const [Active, setActive] = React.useState(false)
+    const [Search, setSearch] = React.useState('')
 
     // useRouter
-    const [AllBlogs, setAllBlogs] = useState([])
+    const [AllBlogs, setAllBlogs] = React.useState([])
 
     const GetNote = () => {
         // const axios = require('axios');
@@ -65,12 +64,12 @@ function page() {
             .catch((error) => {
                 console.log(error);
             });
-            if (Search === '') {
-                GetNote()
-            }
+        if (Search === '') {
+            GetNote()
+        }
     }
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (Search === '') {
             GetNote()
         }
@@ -212,4 +211,4 @@ function page() {
     )
 }
 
-export default page
+export default AllBlog

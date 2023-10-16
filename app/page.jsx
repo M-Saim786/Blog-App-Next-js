@@ -15,7 +15,7 @@ import logo from './Assests/logo.png'
 import Swal from 'sweetalert2';
 // import bgImg from './Assests/f18.png'
 
-function page() {
+function Login() {
 
   const router = useRouter()
   const [UserName, setUserName] = useState('')
@@ -84,7 +84,7 @@ function page() {
           </Typography>
         </Box>
         <Typography sx={{ my: 2, fontFamily: 'outfit' }}>
-          Where thoughts take flight, in Saffron Sunsets's light
+          Where thoughts take flight, in Saffron Sunsets&apos;s light
         </Typography>
 
         <Box sx={{
@@ -199,7 +199,7 @@ function page() {
 
               <Box>
                 <Typography variant='body2'>
-                  Don't have an account?
+                  Don&apos;t have an account?
                 </Typography>
               </Box>
               <Box>
@@ -227,4 +227,4 @@ function page() {
   )
 }
 
-export default page
+export default Login

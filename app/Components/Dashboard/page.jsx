@@ -107,7 +107,7 @@ function Dashboard() {
             </h1>
 
             <Typography sx={{ m: 2, fontFamily: 'outfit', textAlign: 'left' }}>
-              Where thoughts take flight, in SaffronSunsets's light
+              Where thoughts take flight, in SaffronSunsets&apos;s light
             </Typography>
 
             <Box className=' flex  justify-center' sx={{ flexWrap: 'wrap' ,mt:2}}>

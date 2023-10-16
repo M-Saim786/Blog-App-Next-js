@@ -28,7 +28,7 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
-function page() {
+function MYBlog() {
     const router = useRouter()
 
     const [open, setOpen] = React.useState(false);
@@ -385,4 +385,4 @@ function page() {
     )
 }
 
-export default page
+export default MYBlog

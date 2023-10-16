@@ -16,7 +16,7 @@ import { BsEyeSlash } from 'react-icons/bs';
 import Swal from 'sweetalert2'
 import Image from 'next/image'
 import { AiOutlinePlus } from 'react-icons/ai'
-function page() {
+function Profile() {
     const [User, setUser] = useState([])
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
@@ -120,7 +120,7 @@ function page() {
 
                     <Box sx={{ display: 'flex', justifyContent: 'right', }}>
                         <Box sx={{ right: '10px' }}>
-                            <Image src={ImgUrl} width={150} height={150} style={{ border: '1px solid gray', borderRadius: '50%', background: 'transparent' }} />
+                            <Image src={ImgUrl} alt={'Avatar'} width={150} height={150} style={{ border: '1px solid gray', borderRadius: '50%', background: 'transparent' }} />
                             <InputLabel htmlFor='avatar' sx={{ border: '1px solid #9EA3AE', borderRadius: '50%', width: 'fit-content', p: 1, position: 'absolute', top: '7rem', right: '-4px' }}>
                                 <AiOutlinePlus />
                             </InputLabel>
@@ -182,4 +182,4 @@ function page() {
     )
 }
 
-export default page
+export default Profile

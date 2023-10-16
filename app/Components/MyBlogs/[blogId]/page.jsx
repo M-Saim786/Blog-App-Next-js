@@ -6,16 +6,23 @@ import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
-function page({ params }) {
+function EditBlog({ params }) {
     // console.log(params.blogId)
     const router = useRouter()
-    const [Blog, setBlog] = useState('')
-    const [Title, setTitle] = useState(Blog.title)
-    const [Desc, setDesc] = useState(Blog.desc)
+    const [Blog, setBlog] = useState([])
+    const [Title, setTitle] = useState("")
+    const [Desc, setDesc] = useState("")
+    const [OldUrl, setOldUrl] = useState("")
     const [BlogImg, setBlogImg] = useState('')
     const GetNote = () => {
         // const axios = require('axios');
         // axios
+
+
+
+    }
+    useEffect(() => {
+        // GetNote()
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -30,6 +37,10 @@ function page({ params }) {
                     if (i._id === params.blogId) {
                         console.log(i)
                         setBlog(i)
+                        setTitle(i.title)
+                        setDesc(i.desc)
+                        setOldUrl(i.blogImg)
+
                     }
                 }
                 // setAllBlogs(response.data.data)
@@ -37,11 +48,6 @@ function page({ params }) {
             .catch((error) => {
                 console.log(error);
             });
-
-
-    }
-    useEffect(() => {
-        GetNote()
 
     }, [])
     const [Img, setImg] = useState("")
@@ -63,44 +69,41 @@ function page({ params }) {
 
     const SaveEdit = () => {
         handleBlogImg()
-        if (BlogImg) {
+        // if (BlogImg || OldUrl) {
+        // const axios = require('axios');
+        let data = JSON.stringify({
+            "title": Title,
+            "desc": Desc,
+            "blogImg": BlogImg ? BlogImg : OldUrl
+        });
+        console.log(data)
 
+        let config = {
+            method: 'put',
+            maxBodyLength: Infinity,
+            url: `http://localhost:3000/Api/Blog/${params.blogId}`,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: data
+        };
 
-            // const axios = require('axios');
-            let data = JSON.stringify({
-                "title": Title,
-                "desc": Desc,
-                "blogImg": BlogImg
+        axios.request(config)
+            .then((response) => {
+                console.log(response.data);
+                if (response.data.status === true) {
+                    Swal.fire('Success', response.data.message, 'success')
+                    setTimeout(() => {
+                        router.push('/Components/MyBlogs')
+                    }, 2000);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                Swal.fire("Error", error.message, 'error')
             });
-            console.log(data)
-
-            let config = {
-                method: 'put',
-                maxBodyLength: Infinity,
-                url: `http://localhost:3000/Api/Blog/${params.blogId}`,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: data
-            };
-
-            axios.request(config)
-                .then((response) => {
-                    console.log(response.data);
-                    if (response.data.status === true) {
-                        Swal.fire('Success', response.data.message, 'success')
-                        setTimeout(() => {
-                            router.push('/Components/MyBlogs')
-                        }, 2000);
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                    Swal.fire("Error", error.message, 'error')
-                });
-
-        }
     }
+
     return (
         <div>
             <div className='flex justify-start'>
@@ -143,7 +146,7 @@ function page({ params }) {
                 </button> */}
 
                 <div className=' my-3'>
-                    <Button className=' capitalize hover:bg-blue-500 my-6 bg-blue-300 text-white px-3 py-1 rounded-sm' style={{ width: '20%', border: '2px solid rgb(19 116 225)' }} onClick={SaveEdit}>
+                    <Button className=' capitalize hover:bg-blue-500 my-6 bg-blue-300 text-white px-3 py-1 rounded-sm' sx={{ width: '20%', border: '2px solid rgb(19 116 225)', borderRadius: '5px' }} onClick={SaveEdit}>
                         Save
                     </Button>
                     {/* <Button */}
@@ -153,4 +156,4 @@ function page({ params }) {
     )
 }
 
-export default page
+export default EditBlog
